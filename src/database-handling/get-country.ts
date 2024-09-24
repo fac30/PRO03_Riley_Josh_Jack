@@ -9,12 +9,14 @@ const supabaseKey: string = process.env.SUPABASE_KEY ?? "";
 
 const supabase = createClient(supabaseURL, supabaseKey);
 
-const getCountry = async (randomNumber: number) => {
+const getCountry = async (
+  randomNumber: number
+): Promise<{ country: string; code: string }> => {
   const { data } = await supabase
     .from("countries")
     .select("country, code")
     .eq("id", randomNumber);
-
+  console.log(data[0]);
   return data[0];
 };
 

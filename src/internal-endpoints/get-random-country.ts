@@ -1,11 +1,14 @@
 const getCountry = require("../database-handling/get-country");
 
-const getRandomNumber = () => {
+const getRandomNumber = (): number => {
   return Math.floor(Math.random() * 198);
 };
 
-const getRandomCountry = async () => {
-  const randomNumber = getRandomNumber();
+const getRandomCountry = async (): Promise<{
+  country: string;
+  code: string;
+}> => {
+  const randomNumber: number = getRandomNumber();
 
   const randomCountry = await getCountry(randomNumber);
 
