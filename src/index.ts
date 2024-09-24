@@ -1,4 +1,11 @@
-console.log("hello");
-console.log("i am written in TS");
+const databaseCountryFunc = require("./database-handling/get-country");
 
-console.log("i am a lil ts");
+// Call the getCountry function
+const getCountryFour = async () => {
+  const myCountry = await databaseCountryFunc();
+  console.log(myCountry);
+};
+
+getCountryFour();
+
+// console.log("I am in index.ts");

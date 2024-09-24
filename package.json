@@ -1,11 +1,11 @@
 {
   "name": "pro03_riley_josh_jack",
-  "type": "module",
+  "type": "commonjs",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js",
+    "server": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx tsc && node dist/index.js"
   },
