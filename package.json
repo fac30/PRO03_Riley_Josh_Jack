@@ -1,6 +1,6 @@
 {
   "name": "pro03_riley_josh_jack",
-  "type": "module",
+  "type": "commonjs",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
