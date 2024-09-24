@@ -7,13 +7,11 @@ const supabaseURL = process.env.SUPABASE_URL ?? "";
 const supabaseKey = process.env.SUPABASE_KEY ?? "";
 // console.log(supabaseURL, supabaseKey);
 const supabase = createClient(supabaseURL, supabaseKey);
-const getCountry = async () => {
-    const { data } = await supabase.from("countries").select();
-    const countryObject = {
-        country: data[0].country,
-        code: data[0].code,
-    };
-    console.log(countryObject);
-    return countryObject;
+const getCountry = async (randomNumber) => {
+    const { data } = await supabase
+        .from("countries")
+        .select("country, code")
+        .eq("id", randomNumber);
+    return data[0];
 };
 module.exports = getCountry;
