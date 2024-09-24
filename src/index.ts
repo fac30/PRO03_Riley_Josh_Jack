@@ -1,11 +1,10 @@
-const databaseCountryFunc = require("./database-handling/get-country");
+const getCountry = require("./database-handling/get-country");
 
 // Call the getCountry function
-const getCountryFour = async () => {
-  const myCountry = await databaseCountryFunc();
-  console.log(myCountry);
+const asyncGetCountry = async () => {
+  await getCountry();
 };
 
-getCountryFour();
+asyncGetCountry();
 
 // console.log("I am in index.ts");
