@@ -21,8 +21,13 @@ const handleScoreChange = (isCorrect: boolean) => {
   isCorrect ? userScore++ : userScore--;
 };
 
-const database = changeDatabase("asia");
+const database = changeDatabase("south_america");
 console.log(database);
+
+// app.post("/continent", (req: any, res: any) => {
+//   const userBody = req.body;
+//   res.send(userBody);
+// });
 
 app.get("/question", async (req: any, res: any) => {
   const myRandomCountryObject = await getRandomCountry(database);
