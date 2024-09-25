@@ -10,6 +10,8 @@ const getRandomNumber = (database: string): number => {
 
 const getMaxNumber = (database: string): number => {
   switch (database) {
+    case "africa":
+      return 54;
     case "asia":
       return 47;
     case "europe":

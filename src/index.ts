@@ -21,12 +21,13 @@ const handleScoreChange = (isCorrect: boolean) => {
   isCorrect ? userScore++ : userScore--;
 };
 
-const database = changeDatabase("europe");
+let database = changeDatabase("europe");
 console.log(database);
 
 app.post("/continents", (req: any, res: any) => {
   const newContinent = req.body.newContinent;
-  changeDatabase(newContinent);
+  console.log(newContinent);
+  database = changeDatabase(newContinent);
   res.json({ newContinent });
 });
 
