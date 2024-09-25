@@ -14,6 +14,11 @@ app.listen(PORT, () => {
 });
 
 let storedRandomCountry: string | null = null;
+let userScore = 0;
+
+const handleScoreChange = (isCorrect: boolean) => {
+  isCorrect ? userScore++ : userScore--;
+};
 
 app.get("/question", async (req: any, res: any) => {
   const myRandomCountryObject = await getRandomCountry();
@@ -39,10 +44,13 @@ app.post("/answer", async (req: any, res: any) => {
   const isCorrect =
     userAnswer.toLowerCase() === storedRandomCountry.toLowerCase();
 
+  handleScoreChange(isCorrect);
+
   // Send a response indicating whether the answer is correct
   res.json({
     isCorrect,
     correctAnswer: storedRandomCountry,
+    "your score:": userScore,
   });
 });
 
