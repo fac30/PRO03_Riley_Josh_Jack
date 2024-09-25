@@ -12,6 +12,7 @@ const getCountry = async (randomNumber) => {
         .from("countries")
         .select("country, code")
         .eq("id", randomNumber);
+    console.log(data[0]);
     return data[0];
 };
 module.exports = getCountry;
