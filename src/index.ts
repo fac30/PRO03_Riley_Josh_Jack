@@ -1,10 +1,11 @@
-const dotenv = require("dotenv");
-const express = require("express");
-const { createClient } = require("@supabase/supabase-js");
+const indexFlagRequest = require("./api-handling/flag-handling");
+const openAiResponse = require("./api-handling/openAI-handling");
+const getRandomCountryIndex = require("./internal-endpoints/get-random-country");
 
-const supabaseURL: string = process.env.SUPABASE_URL ?? "";
-const supabaseKey: string = process.env.SUPABASE_KEY ?? "";
-const supabase = createClient(supabaseURL, supabaseKey);
+const express = require("express");
+
+// endpoint requests random Country
+// recieves namee flag & fact
 
 const app = express();
 
@@ -12,4 +13,12 @@ const PORT: number = Number(process.env.PORT) || 3000;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+});
+
+app.get("/question", async () => {
+  const myRandomCountryObject = await getRandomCountryIndex();
+  const flag = await indexFlagRequest(myRandomCountryObject.code);
+  const aiResponse = await openAiResponse(myRandomCountryObject.country);
+  console.log(`THE FLAG URL IS ${flag}, THE AI RESPONSE IS ${aiResponse}`);
+  // console.log("Question endpoint hit");
 });

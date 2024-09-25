@@ -1,6 +1,6 @@
-const OpenAI = require('openai');
+const OpenAI = require("openai");
 
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 
 // Load environment variables from the .env file
 dotenv.config();
@@ -11,14 +11,17 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // Get the API key from the environment variable
 });
 
-
-async function main() {
+async function main(country: string) {
   const completion = await openai.chat.completions.create({
-    messages: [{ role: "system", content: "Give me a fun fact about Lithuania" }],
+    messages: [
+      { role: "system", content: `Give me a fun fact about ${country}` },
+    ],
     model: "gpt-4o",
   });
 
-  console.log(completion.choices[0].message.content);
+  return completion.choices[0].message.content;
 }
 
-main();
+module.exports = main;
+
+export {};
