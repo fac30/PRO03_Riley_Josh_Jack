@@ -1,10 +1,15 @@
-const getCountry = require("./database-handling/get-country");
+const dotenv = require("dotenv");
+const express = require("express");
+const { createClient } = require("@supabase/supabase-js");
 
-// Call the getCountry function
-const asyncGetCountry = async () => {
-  await getCountry();
-};
+const supabaseURL: string = process.env.SUPABASE_URL ?? "";
+const supabaseKey: string = process.env.SUPABASE_KEY ?? "";
+const supabase = createClient(supabaseURL, supabaseKey);
 
-asyncGetCountry();
+const app = express();
 
-// console.log("I am in index.ts");
+const PORT: number = Number(process.env.PORT) || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
