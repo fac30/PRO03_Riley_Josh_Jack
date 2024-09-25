@@ -11,7 +11,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // Get the API key from the environment variable
 });
 
-async function main(country: string) {
+async function getOpenAIReponse(country: string) {
   const completion = await openai.chat.completions.create({
     messages: [
       {
@@ -25,6 +25,6 @@ async function main(country: string) {
   return completion.choices[0].message.content;
 }
 
-module.exports = main;
+module.exports = getOpenAIReponse;
 
 export {};

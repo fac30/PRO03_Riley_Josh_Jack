@@ -16,5 +16,3 @@ const getRandomCountry = async (): Promise<{
 };
 
 module.exports = getRandomCountry;
-
-export {};
