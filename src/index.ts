@@ -1,6 +1,6 @@
-const indexFlagRequest = require("./api-handling/flag-handling");
-const openAiResponse = require("./api-handling/openAI-handling");
-const getRandomCountryIndex = require("./internal-endpoints/get-random-country");
+const getFlagURL = require("./api-handling/flag-handling");
+const getOpenAIReponse = require("./api-handling/openAI-handling");
+const getRandomCountry = require("./internal-endpoints/get-random-country");
 
 const express = require("express");
 
@@ -15,10 +15,14 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-app.get("/question", async () => {
-  const myRandomCountryObject = await getRandomCountryIndex();
-  const flag = await indexFlagRequest(myRandomCountryObject.code);
-  const aiResponse = await openAiResponse(myRandomCountryObject.country);
-  console.log(`THE FLAG URL IS ${flag}, THE AI RESPONSE IS ${aiResponse}`);
+app.get("/question", async (req: any, res: any) => {
+  const myRandomCountryObject = await getRandomCountry();
+  const flagURL = await getFlagURL(myRandomCountryObject.code);
+  const aiResponse = await getOpenAIReponse(myRandomCountryObject.country);
+  console.log(`THE FLAG URL IS ${flagURL}, THE AI RESPONSE IS ${aiResponse}`);
+  res.json({ flagURL, aiResponse });
+
   // console.log("Question endpoint hit");
 });
+
+export {};
