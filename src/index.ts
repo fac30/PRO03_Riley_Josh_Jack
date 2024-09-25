@@ -13,7 +13,7 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-let storedRandomCountry: string | null = null;
+let currentCountry: string | null = null;
 let userScore = 0;
 
 const handleScoreChange = (isCorrect: boolean) => {
@@ -22,12 +22,12 @@ const handleScoreChange = (isCorrect: boolean) => {
 
 app.get("/question", async (req: any, res: any) => {
   const myRandomCountryObject = await getRandomCountry();
-  storedRandomCountry = myRandomCountryObject.country;
+  currentCountry = myRandomCountryObject.country;
 
   const flagURL = await getFlagURL(myRandomCountryObject.code);
   const aiResponse = await getOpenAIReponse(myRandomCountryObject.country);
   console.log(`THE FLAG URL IS ${flagURL}, THE AI RESPONSE IS ${aiResponse}`);
-  res.json({ flagURL, aiResponse });
+  res.json({ flagURL, aiResponse, currentCountry });
 
   // console.log("Question endpoint hit");
 });
@@ -36,20 +36,19 @@ app.get("/question", async (req: any, res: any) => {
 app.post("/answer", async (req: any, res: any) => {
   const userAnswer = req.body.answer;
 
-  if (storedRandomCountry === null) {
+  if (currentCountry === null) {
     return;
   }
 
   // Compare the user's answer with the stored random country
-  const isCorrect =
-    userAnswer.toLowerCase() === storedRandomCountry.toLowerCase();
+  const isCorrect = userAnswer.toLowerCase() === currentCountry.toLowerCase();
 
   handleScoreChange(isCorrect);
 
   // Send a response indicating whether the answer is correct
   res.json({
     isCorrect,
-    correctAnswer: storedRandomCountry,
+    correctAnswer: currentCountry,
     "your score:": userScore,
   });
 });
