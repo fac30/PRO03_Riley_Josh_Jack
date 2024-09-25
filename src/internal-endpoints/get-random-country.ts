@@ -12,11 +12,8 @@ const getRandomCountry = async (): Promise<{
 
   const randomCountry = await getCountry(randomNumber);
 
-  console.log(randomCountry);
   return randomCountry;
 };
-
-getRandomCountry();
 
 module.exports = getRandomCountry;
 

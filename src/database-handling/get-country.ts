@@ -16,7 +16,7 @@ const getCountry = async (
     .from("countries")
     .select("country, code")
     .eq("id", randomNumber);
-  console.log(data[0]);
+
   return data[0];
 };
 
