@@ -1,6 +1,7 @@
 const getFlagURL = require("./api-handling/flag-handling");
 const getOpenAIReponse = require("./api-handling/openAI-handling");
 const getRandomCountry = require("./internal-endpoints/get-random-country");
+const changeDatabase = require("./database-handling/change-database");
 
 const express = require("express");
 
@@ -20,8 +21,11 @@ const handleScoreChange = (isCorrect: boolean) => {
   isCorrect ? userScore++ : userScore--;
 };
 
+const database = changeDatabase("asia");
+console.log(database);
+
 app.get("/question", async (req: any, res: any) => {
-  const myRandomCountryObject = await getRandomCountry();
+  const myRandomCountryObject = await getRandomCountry(database);
   currentCountry = myRandomCountryObject.country;
 
   const flagURL = await getFlagURL(myRandomCountryObject.code);
