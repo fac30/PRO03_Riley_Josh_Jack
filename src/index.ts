@@ -21,12 +21,13 @@ const handleScoreChange = (isCorrect: boolean) => {
   isCorrect ? userScore++ : userScore--;
 };
 
-const database = changeDatabase("south_america");
+const database = changeDatabase("europe");
 console.log(database);
 
 app.post("/continents", (req: any, res: any) => {
-  const userBody = req.body;
-  res.send(userBody);
+  const newContinent = req.body.newContinent;
+  changeDatabase(newContinent);
+  res.json({ newContinent });
 });
 
 app.get("/question", async (req: any, res: any) => {
@@ -36,7 +37,7 @@ app.get("/question", async (req: any, res: any) => {
   const flagURL = await getFlagURL(myRandomCountryObject.code);
   const aiResponse = await getOpenAIReponse(myRandomCountryObject.country);
   console.log(`THE FLAG URL IS ${flagURL}, THE AI RESPONSE IS ${aiResponse}`);
-  res.json({ flagURL, aiResponse, currentCountry });
+  res.json({ flagURL, aiResponse, currentCountry, database });
 
   // console.log("Question endpoint hit");
 });
