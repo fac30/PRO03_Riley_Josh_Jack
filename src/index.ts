@@ -15,10 +15,12 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-app.get("/question", async () => {
+app.get("/question", async (req: any, res: any) => {
   const myRandomCountryObject = await getRandomCountryIndex();
   const flag = await indexFlagRequest(myRandomCountryObject.code);
   const aiResponse = await openAiResponse(myRandomCountryObject.country);
   console.log(`THE FLAG URL IS ${flag}, THE AI RESPONSE IS ${aiResponse}`);
+  res.json({ flag, aiResponse });
+
   // console.log("Question endpoint hit");
 });
