@@ -48,7 +48,6 @@ function test(name: string, testFunction: () => Promise<void>) {
 test("Gets the capital of France from OpenAI API", async () => {
   const result = await getOpenAIReponse(); // Asking OpenAI about France
   const expected = "Paris"; // Expecting the capital to be Paris
-
   equal(result, expected); // Compare result with expected
 });
 
