@@ -24,42 +24,45 @@ const handleScoreChange = (isCorrect: boolean) => {
 };
 
 app.get("/question", async (req: any, res: any) => {
-  // Get a random country object (contains country name, code, etc.)
-  const myRandomCountryObject = await getRandomCountry();
-  currentCountry = myRandomCountryObject.country;
+  try {
+    const myRandomCountryObject = await getRandomCountry();
+    currentCountry = myRandomCountryObject.country;
+    const flagURL = await getFlagURL(myRandomCountryObject.code);
+    const aiResponse = await getOpenAIReponse(myRandomCountryObject.country);
 
-  const flagURL = await getFlagURL(myRandomCountryObject.code);
-  
-  // Get an AI-generated response based on the country name
-  const aiResponse = await getOpenAIReponse(myRandomCountryObject.country);
-  
-  // Log the flag URL and the AI response to the console
-  console.log(`THE FLAG URL IS ${flagURL}, THE AI RESPONSE IS ${aiResponse}`);
-  res.json({ flagURL, aiResponse, currentCountry });
-
-  // Optional: Uncomment to log when the '/question' endpoint is hit
-  // console.log("Question endpoint hit");
+    console.log(`THE FLAG URL IS ${flagURL}, THE AI RESPONSE IS ${aiResponse}`);
+    res.json({ flagURL, aiResponse, currentCountry });
+  } catch (error) {
+    console.error("Error in /question:", error);
+    res.status(500).json({ error: "Failed to fetch question data" });
+  }
 });
 
 // POST endpoint to check the user's answer
 app.post("/answer", async (req: any, res: any) => {
-  const userAnswer = req.body.answer;
+  try {
+    const userAnswer = req.body.answer;
 
-  if (currentCountry === null) {
-    return;
+    if (!userAnswer || typeof userAnswer !== "string") {
+      return res.status(400).json({ error: "Invalid answer format" });
+    }
+
+    if (currentCountry === null) {
+      return res.status(400).json({ error: "No question has been asked yet" });
+    }
+
+    const isCorrect = userAnswer.toLowerCase() === currentCountry.toLowerCase();
+    handleScoreChange(isCorrect);
+
+    res.json({
+      isCorrect,
+      correctAnswer: currentCountry,
+      "your score:": userScore,
+    });
+  } catch (error) {
+    console.error("Error in /answer:", error);
+    res.status(500).json({ error: "Failed to process answer" });
   }
-
-  // Compare the user's answer with the stored random country
-  const isCorrect = userAnswer.toLowerCase() === currentCountry.toLowerCase();
-
-  handleScoreChange(isCorrect);
-
-  // Send a response indicating whether the answer is correct
-  res.json({
-    isCorrect,
-    correctAnswer: currentCountry,
-    "your score:": userScore,
-  });
 });
 
 export {};
