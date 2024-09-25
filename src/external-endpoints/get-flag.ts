@@ -1,5 +1,4 @@
-const getFlagUrl = require("../api-handling/flag-handling");
-const getCountry = require("../database-handling/get-country");
+const getFlagURL = require("../api-handling/flag-handling");
 const getRandomCountry = require("../internal-endpoints/get-random-country");
 
 const getFlag = async () => {
@@ -8,7 +7,7 @@ const getFlag = async () => {
 
     const myCountryCode: string = randomCountry.code; // Example country code
     console.log(myCountryCode);
-    const flagObject: { url: any } = await getFlagUrl(myCountryCode); // Adjust the type based on actual response structure
+    const flagObject: { url: any } = await getFlagURL(myCountryCode); // Adjust the type based on actual response structure
     console.log(flagObject.url);
   } catch (error) {
     console.error("Error fetching flag:", error);
@@ -16,3 +15,5 @@ const getFlag = async () => {
 };
 
 getFlag();
+
+export {};
