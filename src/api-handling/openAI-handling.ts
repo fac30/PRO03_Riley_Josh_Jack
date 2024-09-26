@@ -1,8 +1,6 @@
 const OpenAI = require("openai");
-
 const dotenv = require("dotenv");
 
-// Load environment variables from the .env file
 dotenv.config();
 
 const openai = new OpenAI({
@@ -23,6 +21,23 @@ async function getOpenAIReponse(country: string) {
   return completion.choices[0].message.content;
 }
 
-module.exports = getOpenAIReponse;
+async function getDistance(country: string, country2: string) {
+  const completion = await openai.chat.completions.create({
+    messages: [
+      {
+        role: "system",
+        content: `what is the distance between ${country} and ${country2} in km. Do not send any text other than the fact (e.g. sure!, can do! or ok!) Only refer to the country as 'this country'`,
+      },
+    ],
+    model: "gpt-4o",
+  });
+
+  return completion.choices[0].message.content;
+}
+
+module.exports = {
+  getOpenAIReponse,
+  getDistance,
+};
 
 export {};
