@@ -7,8 +7,11 @@ const getRandomCountry = require("./internal-endpoints/get-random-country"); // 
 const changeDatabase = require("./database-handling/change-database"); // Handles switching the country database based on the selected continent
 
 const express = require("express");
+const cors = require("cors");
+
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const PORT: number = Number(process.env.PORT) || 3000;
 
@@ -27,7 +30,7 @@ const handleScoreChange = (isCorrect: boolean) => {
 };
 
 // Initialize the country database to focus on Europe by default
-let database = changeDatabase("europe"); // Switch the country data source to "Europe" by default
+let database = changeDatabase("south_america"); // Switch the country data source to "Europe" by default
 console.log(database);
 
 // POST endpoint to allow changing the continent database
@@ -82,6 +85,7 @@ app.post("/answer", async (req: any, res: any) => {
   // Send a response indicating whether the answer was correct, along with the correct answer, distance, and user's score
   res.json({
     isCorrect, // Whether the user's guess was correct
+    userAnswer,
     correctAnswer: currentCountry, // The correct country
     yourGuessDistance: `Your guess was ${distance} from the correct location`, // Dynamic message with the distance
     userScore, // The user's current score

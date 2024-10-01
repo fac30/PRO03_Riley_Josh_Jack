@@ -17,7 +17,7 @@ const getMaxNumber = (database: string): number => {
     case "europe":
       return 52;
     case "south_america":
-      return 13;
+      return 12;
     default:
       return 999;
   }
