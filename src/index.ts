@@ -1,4 +1,5 @@
 const getFlagURL = require("./api-handling/flag-handling"); // Retrieves the flag URL based on a country's code
+const getRandomFact = require("./external-endpoints/get-fact");
 const {
   getOpenAIReponse,
   getDistance,
@@ -68,6 +69,8 @@ app.get("/countries", async (req: any, res: any) => {
   const allCountries = await getCountries();
   res.json({ allCountries });
 });
+
+app.post("/random-fact", getRandomFact);
 
 // // POST endpoint to check the user's answer
 // app.post("/answer", async (req: any, res: any) => {
