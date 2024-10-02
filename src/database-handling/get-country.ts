@@ -9,18 +9,24 @@ const supabaseKey: string = process.env.SUPABASE_KEY ?? "";
 
 const supabase = createClient(supabaseURL, supabaseKey);
 
-const getCountry = async (
-  randomNumber: number,
-  database: string
-): Promise<{ country: string; code: string }> => {
-  const { data } = await supabase
-    .from(database)
-    .select("country, code")
-    .eq("id", randomNumber);
+const getCountries = async () => {
+  const { data } = await supabase.from("all_countries").select("*");
 
-  return data[0];
+  return data;
 };
 
-module.exports = getCountry;
+// const getCountry = async (
+//   randomNumber: number,
+//   database: string
+// ): Promise<{ country: string; code: string }> => {
+//   const { data } = await supabase
+//     .from(database)
+//     .select("country, code")
+//     .eq("id", randomNumber);
+
+//   return data[0];
+// };
+
+module.exports = getCountries;
 
 export {};
