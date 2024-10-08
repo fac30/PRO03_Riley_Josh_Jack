@@ -57,12 +57,10 @@ async function getSecret() {
     };
     getCountries();
     module.exports = getCountries; // Export the getCountries function
-
   } catch (error) {
     console.error("Error using secret:", error);
   }
 })();
-
 
 // const getCountry = async (
 //   randomNumber: number,
@@ -75,7 +73,5 @@ async function getSecret() {
 
 //   return data[0];
 // };
-
-
 
 export {};
