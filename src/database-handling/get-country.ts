@@ -49,12 +49,12 @@ async function getSecret() {
   }
 })();
 
-const supabase = createClient(supabaseURL, supabaseKey);
+//const supabase = createClient(supabaseURL, supabaseKey);
 
 const getCountries = async () => {
-  const { data } = await supabase.from("all_countries").select("*");
-  // console.log(`secret is: ${supabaseURL}`);
-  return data;
+//  const { data } = await supabase.from("all_countries").select("*");
+   console.log(`secret is: ${supabaseURL}`);
+ // return data;
 };
 
 module.exports = getCountries;

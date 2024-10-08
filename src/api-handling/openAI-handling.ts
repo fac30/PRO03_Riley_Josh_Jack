@@ -10,7 +10,7 @@ dotenv.config();
 const requiredEnvVars = ["OPENAI_API_KEY", "SUPABASE_KEY", "SUPABASE_URL"];
 const missingEnvVars = requiredEnvVars.filter((key) => !process.env[key]);
 
-let openAIKey = process.env.OPENAI_API_KEY;
+let openAIKey:string;
 
 if (missingEnvVars.length > 0) {
   const secret_name = "server_secret";
@@ -47,7 +47,7 @@ if (missingEnvVars.length > 0) {
       const apiKey = secret.OPENAI_API_KEY; // Access the API key from the secret
       console.log(apiKey); // Use the API key as needed
       openAIKey = apiKey;
-      console.log(openAIKey);
+      
     } catch (error) {
       console.error("Error using secret:", error);
     }
