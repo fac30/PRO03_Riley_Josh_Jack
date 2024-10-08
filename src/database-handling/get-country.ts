@@ -41,7 +41,7 @@ async function getSecret() {
 
 // Use the secret in an async IIFE
 // Use the secret in an async IIFE
-const getCountries = () => {
+const getCountries = async () => {
   try {
     const secret = await getSecret(); // Call the function to retrieve the secret
     supabaseURL = secret.SUPABASE_URL; // Access the URL from the secret
