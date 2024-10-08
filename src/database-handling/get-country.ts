@@ -1,5 +1,5 @@
 const { createClient } = require("@supabase/supabase-js");
-const getSecret = require("../aws/aws-secret");
+const { getSecret } = require("../aws/aws-secret");
 const { supabaseKeyDotenv, supabaseURLDotenv } = require("../dotenv/dotenv");
 
 let supabaseURL: string;
