@@ -10,3 +10,5 @@ module.exports = {
   supabaseURLDotenv,
   openAIKeyDotEnv,
 };
+
+export {};
