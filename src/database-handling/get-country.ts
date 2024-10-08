@@ -58,7 +58,7 @@ if (missingEnvVars.length > 0) {
 
 const getCountries = async () => {
   // const { data } = await supabase.from("all_countries").select("*");
-console.log(`secret is: ${supabaseURL})
+  console.log(`secret is: ${supabaseURL}`);
   // return data;
 };
 
