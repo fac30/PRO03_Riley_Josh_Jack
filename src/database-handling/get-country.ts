@@ -39,11 +39,9 @@ async function getSecret() {
   }
 }
 
-let getCountries;
-
 // Use the secret in an async IIFE
 // Use the secret in an async IIFE
-(async () => {
+const getCountries = () => {
   try {
     const secret = await getSecret(); // Call the function to retrieve the secret
     supabaseURL = secret.SUPABASE_URL; // Access the URL from the secret
@@ -52,16 +50,13 @@ let getCountries;
     // Initialize Supabase client after the secrets are retrieved
     const supabase = createClient(supabaseURL, supabaseKey);
 
-    getCountries = async () => {
-      const { data } = await supabase.from("all_countries").select("*");
-      console.log(data);
-      return data;
-    };
-    getCountries();
+    const { data } = await supabase.from("all_countries").select("*");
+    console.log(data);
+    return data;
   } catch (error) {
     console.error("Error using secret:", error);
   }
-})();
+};
 
 module.exports = getCountries; // Export the getCountries function
 
