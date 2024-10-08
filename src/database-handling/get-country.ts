@@ -3,16 +3,16 @@ const {
   SecretsManagerClient,
   GetSecretValueCommand,
 } = require("@aws-sdk/client-secrets-manager");
-const dotenv = require("dotenv");
-dotenv.config();
+// const dotenv = require("dotenv");
+// dotenv.config();
 
 let supabaseURL: string = process.env.SUPABASE_URL ?? "";
 
 let supabaseKey: string = process.env.SUPABASE_KEY ?? "";
-// console.log(supabaseURL, supabaseKey);
+// // console.log(supabaseURL, supabaseKey);
 
-const requiredEnvVars = ["OPENAI_API_KEY", "SUPABASE_KEY", "SUPABASE_URL"];
-const missingEnvVars = requiredEnvVars.filter((key) => !process.env[key]);
+// const requiredEnvVars = ["OPENAI_API_KEY", "SUPABASE_KEY", "SUPABASE_URL"];
+// const missingEnvVars = requiredEnvVars.filter((key) => !process.env[key]);
 
 if (missingEnvVars.length > 0) {
   const secret_name = "server_secret";
@@ -54,12 +54,12 @@ if (missingEnvVars.length > 0) {
   })();
 }
 
-const supabase = createClient(supabaseURL, supabaseKey);
+// const supabase = createClient(supabaseURL, supabaseKey);
 
 const getCountries = async () => {
-  const { data } = await supabase.from("all_countries").select("*");
-
-  return data;
+  // const { data } = await supabase.from("all_countries").select("*");
+console.log(`secret is: ${supabaseURL})
+  // return data;
 };
 
 // const getCountry = async (
