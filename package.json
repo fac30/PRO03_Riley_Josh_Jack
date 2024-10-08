@@ -6,8 +6,8 @@
   "main": "",
   "scripts": {
     "server": "nodemon",
-    "server-aws": "USE_AWS_SECRET=true nodemon",
-    "server-dotenv": "USE_AWS_SECRET=false nodemon",
+    "server-aws": "USE_AWS_SECRETS=true nodemon",
+    "server-dotenv": "USE_AWS_SECRETS=false nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx tsc && node dist/index.js"
   },
