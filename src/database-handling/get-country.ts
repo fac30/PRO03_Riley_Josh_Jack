@@ -1,6 +1,6 @@
-const { createClient } = require("@supabase/supabase-js");
 const { getSecret } = require("../aws/aws-secret");
 const { supabaseKeyDotenv, supabaseURLDotenv } = require("../dotenv/dotenv");
+const { dbRequest } = require("./db-request");
 
 let supabaseURL: string;
 
@@ -15,21 +15,18 @@ const getCountries = async () => {
       supabaseKey = secret.SUPABASE_KEY; // Access the key from the secret
 
       // Initialize Supabase client after the secrets are retrieved
-      const supabase = createClient(supabaseURL, supabaseKey);
-
-      const { data } = await supabase.from("all_countries").select("*");
-      console.log(data);
-      return data;
+      const myData = await dbRequest(supabaseURL, supabaseKey);
+      console.log(myData);
+      return myData;
     } catch (error) {
       console.error("Error using secret:", error);
     }
   } else {
     supabaseURL = supabaseURLDotenv;
     supabaseKey = supabaseKeyDotenv;
-    const supabase = createClient(supabaseURL, supabaseKey);
-    const { data } = await supabase.from("all_countries").select("*");
-    console.log(data);
-    return data;
+    const myData = await dbRequest(supabaseURL, supabaseKey);
+    console.log(myData);
+    return myData;
   }
 };
 
