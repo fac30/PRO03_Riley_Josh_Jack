@@ -3,6 +3,8 @@ const {
   SecretsManagerClient,
   GetSecretValueCommand,
 } = require("@aws-sdk/client-secrets-manager");
+
+// THIS NOW WORKS???
 // const dotenv = require("dotenv");
 // dotenv.config();
 
