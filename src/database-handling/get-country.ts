@@ -4,6 +4,10 @@ const {
   GetSecretValueCommand,
 } = require("@aws-sdk/client-secrets-manager");
 
+// THIS NOW WORKS???
+// const dotenv = require("dotenv");
+// dotenv.config();
+
 let supabaseURL: string;
 
 let supabaseKey: string;
@@ -52,7 +56,6 @@ const getCountries = async () => {
   // console.log(`secret is: ${supabaseURL}`);
   return data;
 };
-
 
 module.exports = getCountries;
 
