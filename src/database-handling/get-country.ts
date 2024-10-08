@@ -1,35 +1,35 @@
 const { createClient } = require("@supabase/supabase-js");
 const getSecret = require("../aws/aws-secret");
-
-// THIS NOW WORKS???
-// const dotenv = require("dotenv");
-// dotenv.config();
+const { supabaseKeyDotenv, supabaseURLDotenv } = require("./path-to-your-file");
 
 let supabaseURL: string;
 
 let supabaseKey: string;
 
-const secret_name = "server_secret";
-
-const client = new SecretsManagerClient({
-  region: "eu-west-2",
-});
-
 // Use the secret in an async IIFE
 const getCountries = async () => {
-  try {
-    const secret = await getSecret(); // Call the function to retrieve the secret
-    supabaseURL = secret.SUPABASE_URL; // Access the URL from the secret
-    supabaseKey = secret.SUPABASE_KEY; // Access the key from the secret
+  if (process.env.USE_AWS_SECRETS === "true") {
+    try {
+      const secret = await getSecret(); // Call the function to retrieve the secret
+      supabaseURL = secret.SUPABASE_URL; // Access the URL from the secret
+      supabaseKey = secret.SUPABASE_KEY; // Access the key from the secret
 
-    // Initialize Supabase client after the secrets are retrieved
+      // Initialize Supabase client after the secrets are retrieved
+      const supabase = createClient(supabaseURL, supabaseKey);
+
+      const { data } = await supabase.from("all_countries").select("*");
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.error("Error using secret:", error);
+    }
+  } else {
+    supabaseURL = supabaseURLDotenv;
+    supabaseKey = supabaseKeyDotenv;
     const supabase = createClient(supabaseURL, supabaseKey);
-
     const { data } = await supabase.from("all_countries").select("*");
     console.log(data);
     return data;
-  } catch (error) {
-    console.error("Error using secret:", error);
   }
 };
 
