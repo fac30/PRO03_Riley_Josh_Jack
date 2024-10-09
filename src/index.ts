@@ -18,7 +18,13 @@ const PORT: number = Number(process.env.PORT) || 3000;
 
 // Start the server and listen on the specified port
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`); // Log that the server has started successfully
+  let serverType: string = "Unknown";
+  if (process.env.USE_AWS_SECRETS === "true") {
+    serverType = "AWS";
+  } else if (process.env.USE_AWS_SECRETS === "false") {
+    serverType = "Dotenv";
+  }
+  console.log(`Server is running on port ${PORT}: Server type --${serverType}`); // Log that the server has started successfully
 });
 
 app.get("/countries", async (req: any, res: any) => {
