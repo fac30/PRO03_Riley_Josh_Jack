@@ -31,7 +31,7 @@ app.get("/countries", async (req: any, res: any) => {
 });
 
 // Define the /random-fact route with an inline function
-app.get("/random-fact", async (req: any, res: any) => {
+app.post("/random-fact", async (req: any, res: any) => {
   const { country } = req.body;
 
   if (!country) {
