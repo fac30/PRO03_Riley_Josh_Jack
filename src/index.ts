@@ -1,105 +1,60 @@
-const getFlagURL = require("./api-handling/flag-handling"); // Retrieves the flag URL based on a country's code
 const getRandomFact = require("./external-endpoints/get-fact");
 const {
-  getOpenAIReponse,
+  getOpenAIResponse,
   getDistance,
 } = require("./api-handling/openAI-handling"); // Fetches a country-related response from OpenAI
-// const getRandomCountry = require("./internal-endpoints/get-random-country"); // Retrieves a random country object, such as its name and code
-const changeDatabase = require("./database-handling/change-database"); // Handles switching the country database based on the selected continent
-const getCountries = require("./database-handling/get-country");
+const getCountries = require("./database-handling/get-countries");
 
 const express = require("express");
+
 const cors = require("cors");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-const PORT: number = Number(process.env.PORT) || 3000;
+const PORT: number = 3000;
 
-// Start the server and listen on the specified port
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`); // Log that the server has started successfully
-});
+let allCountries: any[] = [];
 
-// Declare variables to store the current country and user score
-let currentCountry: string | null = null; // Variable to store the current country; initially set to null
-let userScore = 0; // Initialize the user score to 0
-
-// // Function to handle score changes based on whether the answer is correct
-// const handleScoreChange = (isCorrect: boolean) => {
-//   isCorrect ? userScore++ : userScore--;
-// };
-
-// // Initialize the country database to focus on Europe by default
-// let database = changeDatabase("south_america"); // Switch the country data source to "Europe" by default
-// console.log(database);
-
-// // POST endpoint to allow changing the continent database
-// app.post("/continents", (req: any, res: any) => {
-//   // Extract the new continent from the request body
-//   const newContinent = req.body.newContinent;
-
-//   console.log(newContinent);
-
-//   // Switch the country database to the new continent & respond with that continent as confirmation
-//   database = changeDatabase(newContinent);
-//   res.json({ newContinent });
-// });
-
-// app.get("/question", async (req: any, res: any) => {
-//   // Get a random country object (name, code, etc.) from the specified continent database
-//   const myRandomCountryObject = await getRandomCountry(database);
-//   currentCountry = myRandomCountryObject.country; // Store the country globally
-
-//   // Fetch the flag URL for the random country
-//   const flagURL = await getFlagURL(myRandomCountryObject.code);
-
-//   // Get a response from OpenAI related to the random country
-//   const aiResponse = await getOpenAIReponse(myRandomCountryObject.country);
-
-//   // Log the flag URL and AI response for debugging purposes
-//   console.log(`THE FLAG URL IS ${flagURL}, THE AI RESPONSE IS ${aiResponse}`);
-
-//   // Respond with a JSON object containing the flag URL, AI response, the current country, and the database (continent)
-//   res.json({ flagURL, aiResponse, currentCountry, database });
-// });
+// Immediately invoked function to fetch countries when the server starts
+(async () => {
+  try {
+    allCountries = await getCountries();
+  } catch (error) {
+    console.error("Error fetching countries:", error);
+  }
+})();
 
 app.get("/countries", async (req: any, res: any) => {
-  const allCountries = await getCountries();
   res.json({ allCountries });
 });
 
-app.post("/random-fact", getRandomFact);
+// Define the /random-fact route with an inline function
+app.get("/random-fact", async (req: any, res: any) => {
+  const { country } = req.body;
 
-// // POST endpoint to check the user's answer
-// app.post("/answer", async (req: any, res: any) => {
-//   // Extract the user's answer from the request body
-//   const userAnswer = req.body.answer;
+  if (!country) {
+    return res.status(400).json({ error: "Country is required" }); // Handle missing country
+  }
 
-//   // Ensure a country has been set before continuing
-//   if (currentCountry === null) {
-//     return res.status(400).json({ error: "No question has been asked yet." }); // If no question has been asked, return an error
-//   }
+  try {
+    const fact = await getOpenAIResponse(country); // Fetch the fact using the provided country
+    res.json({ fact }); // Send the fact back as a JSON response
+  } catch (error) {
+    console.error("Error fetching fact:", error);
+    res.status(500).json({ error: "Failed to fetch fact" }); // Handle errors and send a response
+  }
+});
 
-//   // Compare the user's answer (case-insensitive) with the stored current country
-//   const isCorrect = userAnswer.toLowerCase() === currentCountry.toLowerCase();
+app.listen(PORT, () => {
+  let serverType: string = "Unknown";
+  if (process.env.USE_AWS_SECRETS === "true") {
+    serverType = "AWS";
+  } else if (process.env.USE_AWS_SECRETS === "false") {
+    serverType = "Dotenv";
+  }
+  console.log(`Server is running on port ${PORT}: Server type --${serverType}`);
+});
 
-//   // Calculate the distance between the guessed country and the correct country
-//   const distance = await getDistance(currentCountry, userAnswer);
-
-//   // Update the score based on whether the user's answer was correct
-//   handleScoreChange(isCorrect);
-
-//   // Send a response indicating whether the answer was correct, along with the correct answer, distance, and user's score
-//   res.json({
-//     isCorrect, // Whether the user's guess was correct
-//     userAnswer,
-//     correctAnswer: currentCountry, // The correct country
-//     yourGuessDistance: `Your guess was ${distance} from the correct location`, // Dynamic message with the distance
-//     userScore, // The user's current score
-//   });
-// });
-
-// The export statement is used to avoid conflicts when using the module system in TypeScript
 export {};
