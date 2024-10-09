@@ -15,12 +15,17 @@ app.use(cors());
 
 const PORT: number = Number(process.env.PORT) || 3000;
 
-const getCountriesFromDB = async () => {
-  const allCountries = await getCountries();
-  return allCountries;
-};
+// Initialize a variable to store all countries
+let allCountries: any[] = [];
 
-const allCountries = getCountriesFromDB();
+// Immediately invoked function to fetch countries when the server starts
+(async () => {
+  try {
+    allCountries = await getCountries(); // Fetch the countries from the database
+  } catch (error) {
+    console.error("Error fetching countries:", error);
+  }
+})();
 
 app.get("/countries", async (req: any, res: any) => {
   res.json({ allCountries });
