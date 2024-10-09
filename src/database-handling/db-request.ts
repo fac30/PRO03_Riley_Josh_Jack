@@ -6,4 +6,4 @@ const dbRequest = async (url: string, key: string) => {
   return data;
 };
 
-module.exports = { dbRequest };
+module.exports = dbRequest;

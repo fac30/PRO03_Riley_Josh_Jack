@@ -1,7 +1,6 @@
-const { loadSecrets } = require("../secrets/secrets-handler");
-const { dbRequest } = require("./db-request");
+const loadSecrets = require("../secrets/secrets-handler");
+const dbRequest = require("./db-request");
 
-// Use the secret in an async IIFE
 const getCountries = async () => {
   try {
     // Initialize Supabase client after the secrets are retrieved
