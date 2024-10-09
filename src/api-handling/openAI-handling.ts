@@ -18,7 +18,7 @@ const getOpenAIResponse = async (country: string) => {
     messages: [
       {
         role: "system",
-        content: `Give me a fun fact about ${country}.`,
+        content: `Give me a fun fact about ${country}. Keep it short, one sentence only, and give me the fun fact without any "sure!", or "ok, here's a secret". E.g. "France is the largest exporter of wine in Europe"`,
       },
     ],
     model: "gpt-4o",
