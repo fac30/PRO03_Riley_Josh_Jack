@@ -45,9 +45,7 @@ if (missingEnvVars.length > 0) {
     try {
       const secret = await getSecret(); // Call the function to retrieve the secret
       const apiKey = secret.OPENAI_API_KEY; // Access the API key from the secret
-      console.log(apiKey); // Use the API key as needed
       openAIKey = apiKey;
-      console.log(openAIKey);
     } catch (error) {
       console.error("Error using secret:", error);
     }
