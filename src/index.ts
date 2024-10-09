@@ -16,6 +16,19 @@ app.use(cors());
 
 const PORT: number = Number(process.env.PORT) || 3000;
 
+const getCountriesFromDB = async () => {
+  const allCountries = await getCountries();
+  return allCountries;
+};
+
+const allCountries = getCountriesFromDB();
+
+app.get("/countries", async (req: any, res: any) => {
+  res.json({ allCountries });
+});
+
+app.post("/random-fact", getRandomFact);
+
 // Start the server and listen on the specified port
 app.listen(PORT, () => {
   let serverType: string = "Unknown";
@@ -26,12 +39,5 @@ app.listen(PORT, () => {
   }
   console.log(`Server is running on port ${PORT}: Server type --${serverType}`); // Log that the server has started successfully
 });
-
-app.get("/countries", async (req: any, res: any) => {
-  const allCountries = await getCountries();
-  res.json({ allCountries });
-});
-
-app.post("/random-fact", getRandomFact);
 
 export {};
