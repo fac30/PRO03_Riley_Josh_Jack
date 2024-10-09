@@ -1,6 +1,6 @@
 const getRandomFact = require("./external-endpoints/get-fact");
 const {
-  getOpenAIReponse,
+  getOpenAIResponse,
   getDistance,
 } = require("./api-handling/openAI-handling"); // Fetches a country-related response from OpenAI
 const getCountries = require("./database-handling/get-countries");
@@ -30,7 +30,22 @@ app.get("/countries", async (req: any, res: any) => {
   res.json({ allCountries });
 });
 
-app.post("/random-fact", getRandomFact);
+// Define the /random-fact route with an inline function
+app.get("/random-fact", async (req: any, res: any) => {
+  const { country } = req.body;
+
+  if (!country) {
+    return res.status(400).json({ error: "Country is required" }); // Handle missing country
+  }
+
+  try {
+    const fact = await getOpenAIResponse(country); // Fetch the fact using the provided country
+    res.json({ fact }); // Send the fact back as a JSON response
+  } catch (error) {
+    console.error("Error fetching fact:", error);
+    res.status(500).json({ error: "Failed to fetch fact" }); // Handle errors and send a response
+  }
+});
 
 app.listen(PORT, () => {
   let serverType: string = "Unknown";

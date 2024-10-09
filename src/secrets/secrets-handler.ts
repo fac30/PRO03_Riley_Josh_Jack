@@ -45,6 +45,4 @@ async function loadSecrets() {
   return { supabaseURL, supabaseKey, openAIKey };
 }
 
-module.exports = { loadSecrets };
-
-export {};
+module.exports = loadSecrets;
