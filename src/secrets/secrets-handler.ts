@@ -13,7 +13,7 @@ const client = new SecretsManagerClient({
 });
 
 // Define a function to get the secret
-async function getSecret() {
+async function loadSecrets() {
   let supabaseURL: string;
   let supabaseKey: string;
   let openAIKey: string;
@@ -45,6 +45,6 @@ async function getSecret() {
   return { supabaseURL, supabaseKey, openAIKey };
 }
 
-module.exports = { getSecret };
+module.exports = { loadSecrets };
 
 export {};
