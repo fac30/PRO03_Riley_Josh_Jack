@@ -1,11 +1,5 @@
 const OpenAI = require("openai");
-const dotenv = require("dotenv");
-const {
-  SecretsManagerClient,
-  GetSecretValueCommand,
-} = require("@aws-sdk/client-secrets-manager");
-
-dotenv.config();
+const loadSecrets = require("../secrets/secrets-handler");
 
 const requiredEnvVars = ["OPENAI_API_KEY", "SUPABASE_KEY", "SUPABASE_URL"];
 const missingEnvVars = requiredEnvVars.filter((key) => !process.env[key]);
