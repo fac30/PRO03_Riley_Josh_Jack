@@ -3,8 +3,7 @@ const {
   getOpenAIReponse,
   getDistance,
 } = require("./api-handling/openAI-handling"); // Fetches a country-related response from OpenAI
-
-const getCountries = require("./database-handling/get-country");
+const getCountries = require("./database-handling/get-countries");
 
 const express = require("express");
 

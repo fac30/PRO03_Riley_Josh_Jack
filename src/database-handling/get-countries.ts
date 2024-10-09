@@ -7,7 +7,7 @@ const getCountries = async () => {
     // Initialize Supabase client after the secrets are retrieved
     const { supabaseURL, supabaseKey } = await loadSecrets();
     const myData = await dbRequest(supabaseURL, supabaseKey);
-    console.log(myData);
+    console.log("Data has been received from Supabase");
     return myData;
   } catch (error) {
     console.error("Error using secret:", error);
